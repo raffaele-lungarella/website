@@ -1,0 +1,27 @@
+---
+import type { HTMLAttributes } from "astro/types";
+
+type Variant = "brand" | "header" | "underline" | "muted";
+
+interface Props extends HTMLAttributes<"a"> {
+  variant?: Variant;
+  active?: boolean;
+}
+
+const { variant = "header", active, class: className, ...attrs } = Astro.props;
+
+const variants: Record<Variant, string> = {
+  brand: "interactive text-ink",
+  header:
+    "border-transparent px-2 py-1.5 interactive hover:border-edge-strong hover:text-gray-11 active:scale-[0.97] transition duration-150 data-active:border-accent data-active:no-underline text-gray-9 data-active:text-ink",
+  underline:
+    "text-ink underline decoration-ink-dimmer decoration-2 hover:decoration-ink transition-[text-decoration-color] duration-150 motion-reduce:transition-none",
+  muted:
+    "text-ink-dim hover:text-ink hover:underline transition-colors duration-150",
+};
+---
+<a
+  class:list={[variants[variant], className, "font-sans"]}
+  data-active={active || undefined}
+  aria-current={variant === "header" && active ? "page" : undefined}
+  {...attrs}><slot /></a>

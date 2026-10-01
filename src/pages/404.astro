@@ -1,0 +1,15 @@
+---
+import Container from "../components/Container.astro";
+import Link from "../components/Link.astro";
+import { SITE_TITLE } from "../consts";
+import BaseLayout from "../layouts/BaseLayout.astro";
+---
+<BaseLayout
+  metadata={{ title: `404 — ${SITE_TITLE}`, description: "The requested page could not be found.", robots: "noindex, nofollow" }}>
+  <Container
+    class="flex min-h-[60vh] flex-col items-center justify-center py-24 text-center">
+    <h1 class="mb-4 font-serif text-6xl!">404</h1>
+    <p class="mb-8 text-lg text-ink-dim">This page doesn't exist.</p>
+    <Link class="font-sans" variant="underline" href="/">back</Link>
+  </Container>
+</BaseLayout>

@@ -1,0 +1,111 @@
+---
+title: Poor man's opaque types
+description: How to emulate opaque types in TypeScript with branded types, including their advantages, limitations, and validation patterns.
+pubDate: 2026-05-16
+---
+
+I am a big fan of type-driven design and try to apply it whenever I can. In this article I want to demonstrate how to emulate **opaque types** in TypeScript using **branded types** and discuss the advantages and shortcomings of this paradigm.
+
+---
+
+## Opaque types
+
+Imagine working on a newsletter system and defining an email as a string. You pass around emails in functions that expect a validated email address, but nothing in the type system distinguishes a validated string from a raw one. You end up with redundant checks, or worse, no validation at all. As [Parse, don't validate](https://lexi-lambda.github.io/blog/2019/11/05/parse-don-t-validate/) argues, the fix is to _parse_ at the boundary and return a type that makes validation self-evident. That is exactly what opaque types enforce.
+
+An opaque type is a public type whose constructor is private, only accessible within the module it is defined in. This enforces information hiding: you can only create and manipulate values of that type through the functions that module exposes.
+
+Here is a Gleam implementation of an `Email` type:
+
+```gleam
+pub opaque type Email {
+  Email(String)
+}
+
+pub fn parse(s: String) -> Result(Email, String) { ... }
+```
+
+The `pub opaque` keyword makes the type itself public but keeps its constructor private to the module. Trying to construct `Email` directly from another module fails at compile time:
+
+```gleam
+let email = Email("john_doe")
+// error: unknown constructor Email
+
+let invalid_email = parse("john_doe")
+let valid_email = parse("john_doe@example.com")
+```
+
+This is useful because it pushes validation to the boundary. The information travels with the type!
+
+---
+
+## Branded types in TypeScript
+
+TypeScript is a structural type system, not a nominal one, and it has no access modifiers on struct fields. If you define `Email` as a type alias for `string`, the compiler will not stop you from passing any string where an `Email` is expected:
+
+```typescript
+type Email = string;
+
+function sendEmail(subscriber: Email) {}
+
+// no error
+sendEmail("john_doe");
+```
+
+Branded types let us attach phantom metadata to a base type, making it structurally distinct from a plain `string`:
+
+```typescript
+type Email = string & { __brand: "email" };
+
+function sendEmail(subscriber: Email) {}
+
+sendEmail("john_doe");
+/*
+ * Error: Argument of type 'string' is not
+ * assignable to parameter of type 'Email'.
+ */
+```
+
+To create an `Email` value we write a parse function that takes a `string` and returns `Email | null`:
+
+```typescript
+function parseEmail(str: string): Email | null {
+  // validate format, return null if invalid
+}
+```
+
+We have pushed the validation invariant into the type system. You no longer pass strings around hoping they have already been validated.
+
+```typescript
+let email = parseEmail("john_doe")
+if (!email ) { ... } // handle bad input
+sendEmail(email);
+```
+
+The pattern generalises beyond email:
+
+- branded types to handle paths: `RelativePath` and `AbsolutePath` types;
+- simple handling of dates: `IsoDate` and `IsoDateTime` for date strings.
+
+---
+
+## TypeScript's limits
+
+The TypeScript solution is far from perfect. Branded types are not truly opaque. The `as` keyword lets anyone bypass them:
+
+```typescript
+sendEmail("john_doe" as Email); // compiles just fine
+```
+
+There is no way to prevent this at the language level. As with most patterns in the JavaScript ecosystem, it requires discipline to pull off.
+
+Other than the language limitations, branded types can add cognitive overhead and make the system harder to change. [Haskellers in the trenches](https://blog.haskell.org/a-couple-million-lines-of-haskell/) talks about this better than I ever could, it references Haskell systems but it's true for every programming language.
+
+In conclusion branded types can really help you reason with your system and can be a nice developer experience addition. Don't overuse them and they will serve you well!
+
+---
+
+## Further reading
+
+- [Branded types in TypeScript](https://www.learningtypescript.com/articles/branded-types)
+- [Parse, don't validate](https://lexi-lambda.github.io/blog/2019/11/05/parse-don-t-validate/)
+- [Haskellers in the trenches](https://blog.haskell.org/a-couple-million-lines-of-haskell/)

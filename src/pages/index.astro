@@ -1,0 +1,35 @@
+---
+import Container from "../components/Container.astro";
+import Link from "../components/Link.astro";
+import { SITE_AUTHOR } from "../consts";
+import BaseLayout from "../layouts/BaseLayout.astro";
+---
+<BaseLayout metadata={{ title: SITE_AUTHOR }}>
+  <Container class="py-12 sm:py-20">
+    <div
+      class="mx-auto grid items-center justify-items-center gap-12 md:grid-cols-[minmax(0,5fr)_minmax(0,4fr)]">
+      <figure
+        class="w-full max-w-64 rotate-1 bg-[#fdfdfc] p-3 pb-6 shadow-[0_2px_3px_rgb(0_0_0/0.12),0_5px_8px_-3px_rgb(0_0_0/0.18)] rounded-xs sm:max-w-80 md:order-2">
+        <picture>
+          <source srcset="/tree.avif" type="image/avif" />
+          <img src="/tree.webp"
+            alt="Umbrella pines and cypress trees overlooking the Tuscan countryside"
+            width="1428" height="1904" decoding="async"
+            class="aspect-4/5 w-full object-cover" />
+        </picture>
+        <figcaption
+          class="mt-4 px-1 text-center type-metadata text-neutral-600">A quiet corner of Tuscany, not far from home.</figcaption>
+      </figure>
+      <div class="w-full text-left text-lg font-normal md:order-1">
+        <p
+          class="text-ink-dim">I'm <span class="text-ink">Raffaele</span>, a developer based in Firenze, Italy. I made this site to get better at writing and because I love yapping about software.</p>
+        <br />
+        <p
+          class="text-ink-dim">Feel free to email me at <Link variant="underline" href="mailto:mail@raffaelelungarella.dev">mail@raffaelelungarella.dev</Link>, I'm always on the lookout to meet new people and discuss opportunities.</p>
+        <p class="mt-8">
+          <Link variant="underline" href="/writings/">writings →</Link>
+        </p>
+      </div>
+    </div>
+  </Container>
+</BaseLayout>

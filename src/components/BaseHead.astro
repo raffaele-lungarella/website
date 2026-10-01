@@ -1,0 +1,135 @@
+---
+import { Font } from "astro:assets";
+import { SITE_DESCRIPTION, SITE_TITLE } from "../consts";
+import type { PageMetadata } from "../types";
+
+interface Props {
+  metadata: PageMetadata;
+}
+
+const { metadata } = Astro.props;
+const {
+  title,
+  description = SITE_DESCRIPTION,
+  canonicalURL: canonicalOverride,
+  socialImage: socialImageOverride = "/og.png",
+  type = "website",
+  robots = "index, follow",
+  publicationDate,
+  modificationDate,
+} = metadata;
+const isIndexable = robots === "index, follow";
+const canonicalURL = new URL(
+  canonicalOverride ?? Astro.url.pathname,
+  Astro.site,
+);
+const socialImage = new URL(socialImageOverride, Astro.site);
+---
+
+<!-- Security policies supported by static HTML. Response-only policies remain
+     the responsibility of the hosting provider. -->
+<meta
+  http-equiv="Content-Security-Policy"
+  content={`default-src 'self'; base-uri 'self'; connect-src 'self'; font-src 'self'; form-action 'self'; frame-src 'none'; img-src 'self' data:; media-src 'self'; object-src 'none'; script-src 'self'; style-src 'self' 'unsafe-inline';${Astro.url.protocol === "https:" ? " upgrade-insecure-requests" : ""}`}
+/>
+<meta name="referrer" content="strict-origin-when-cross-origin" />
+
+<Font cssVariable="--font-sans" preload />
+
+<Font cssVariable="--font-mono" />
+
+<!-- Global Metadata -->
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+<link rel="sitemap" href="/sitemap-index.xml" />
+<link
+  rel="alternate"
+  type="application/rss+xml"
+  title={SITE_TITLE}
+  href={new URL("rss.xml", Astro.site)}
+/>
+<meta name="generator" content={Astro.generator} />
+
+<!-- Canonical URL -->
+{isIndexable && <link rel="canonical" href={canonicalURL} />}
+
+<!-- Primary Meta Tags -->
+<title>{title}</title>
+<meta name="title" content={title} />
+<meta name="description" content={description} />
+<meta name="robots" content={robots} />
+
+{
+    isIndexable && (
+        <>
+            {/* Open Graph / Facebook */}
+            <meta property="og:type" content={type} />
+            <meta property="og:url" content={canonicalURL} />
+            <meta property="og:title" content={title} />
+            <meta property="og:description" content={description} />
+            <meta property="og:image" content={socialImage} />
+            {type === "article" && publicationDate && (
+                <meta
+                    property="article:published_time"
+                    content={publicationDate}
+                />
+            )}
+            {type === "article" && modificationDate && (
+                <meta
+                    property="article:modified_time"
+                    content={modificationDate}
+                />
+            )}
+
+            {/* Twitter */}
+            <meta property="twitter:card" content="summary_large_image" />
+            <meta property="twitter:url" content={canonicalURL} />
+            <meta property="twitter:title" content={title} />
+            <meta property="twitter:description" content={description} />
+            <meta property="twitter:image" content={socialImage} />
+        </>
+    )
+}
+
+<style is:global>
+@view-transition {
+  navigation: auto;
+}
+#main-content {
+  view-transition-name: main;
+}
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation: none;
+}
+::view-transition-old(main),
+::view-transition-new(main) {
+  mix-blend-mode: normal;
+  animation-duration: 0.15s;
+  animation-timing-function: cubic-bezier(.4, 0, .2, 1);
+  animation-fill-mode: both;
+}
+::view-transition-old(main) {
+  animation-name: exit;
+}
+::view-transition-new(main) {
+  animation-name: enter;
+}
+@keyframes exit {
+  to {
+    opacity: 0;
+  }
+}
+@keyframes enter {
+  from {
+    opacity: 0;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-old(main),
+  ::view-transition-new(main) {
+    animation: none;
+  }
+}
+</style>
