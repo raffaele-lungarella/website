@@ -230,17 +230,9 @@
 
   --astro-code-foreground: var(--sand-12);
   --astro-code-background: var(--sand-3);
-  --astro-code-token-string: color-mix(
-    in oklab,
-    var(--code-green) 65%,
-    var(--sand-12)
-  );
+  --astro-code-token-string: color-mix(in oklab, var(--code-green) 65%, var(--sand-12));
   --astro-code-token-comment: var(--sand-10);
-  --astro-code-token-keyword: color-mix(
-    in oklab,
-    var(--code-blue) 65%,
-    var(--sand-12)
-  );
+  --astro-code-token-keyword: color-mix(in oklab, var(--code-blue) 65%, var(--sand-12));
   --astro-code-token-string-expression: var(--astro-code-token-string);
   --astro-code-token-link: var(--astro-code-token-keyword);
 

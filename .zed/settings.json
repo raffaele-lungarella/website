@@ -2,37 +2,22 @@
   "languages": {
     "JSON": {
       "format_on_save": "on",
-      "formatter": "language_server",
+      "formatter": "language_server"
     },
     "JavaScript": {
-      "language_servers": [
-        "deno",
-        "!typescript-language-server",
-        "!vtsls",
-        "!eslint",
-      ],
+      "language_servers": ["deno", "!typescript-language-server", "!vtsls", "!eslint"],
       "formatter": "language_server",
-      "format_on_save": "on",
+      "format_on_save": "on"
     },
     "TypeScript": {
-      "language_servers": [
-        "deno",
-        "!typescript-language-server",
-        "!vtsls",
-        "!eslint",
-      ],
+      "language_servers": ["deno", "!typescript-language-server", "!vtsls", "!eslint"],
       "formatter": "language_server",
-      "format_on_save": "on",
+      "format_on_save": "on"
     },
     "TSX": {
-      "language_servers": [
-        "deno",
-        "!typescript-language-server",
-        "!vtsls",
-        "!eslint",
-      ],
+      "language_servers": ["deno", "!typescript-language-server", "!vtsls", "!eslint"],
       "formatter": "language_server",
-      "format_on_save": "on",
+      "format_on_save": "on"
     },
     "Astro": {
       "language_servers": [
@@ -41,15 +26,15 @@
         "!vtsls",
         "!eslint",
         "astro-language-server",
-        "tailwindcss-language-server",
+        "tailwindcss-language-server"
       ],
       "formatter": {
         "external": {
           "command": "deno",
-          "arguments": ["fmt", "--unstable-component", "--ext", "astro", "-"],
-        },
+          "arguments": ["fmt", "--unstable-component", "--ext", "astro", "-"]
+        }
       },
-      "format_on_save": "on",
-    },
-  },
+      "format_on_save": "on"
+    }
+  }
 }

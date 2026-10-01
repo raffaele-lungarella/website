@@ -54,8 +54,8 @@ test("formatCalendarDate formats a date in en-US using UTC", () => {
 });
 
 test("formatCalendarDate can show only month and year", () => {
-  assert.equal(formatCalendarDate("2025-07-14", true), "Jul 2025");
-  assert.equal(formatCalendarDate("2025-01-01", true), "Jan 2025");
+  assert.equal(formatCalendarDate("2025-07-14"), "Jul 2025");
+  assert.equal(formatCalendarDate("2025-01-01"), "Jan 2025");
 });
 
 test("getCalendarYear extracts the numeric year", () => {
