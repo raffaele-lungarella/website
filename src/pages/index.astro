@@ -9,7 +9,8 @@ import BaseLayout from "../layouts/BaseLayout.astro";
     <div
       class="mx-auto grid items-center justify-items-center gap-12 md:grid-cols-[minmax(0,5fr)_minmax(0,4fr)]">
       <figure
-        class="w-full max-w-64 rotate-1 bg-[#fdfdfc] p-3 pb-6 shadow-[0_2px_3px_rgb(0_0_0/0.12),0_5px_8px_-3px_rgb(0_0_0/0.18)] rounded-xs sm:max-w-80 md:order-2">
+        data-photo
+        class="photo-card w-full max-w-64 rotate-1 bg-[#fdfdfc] p-3 pb-6 shadow-[0_2px_3px_rgb(0_0_0/0.12),0_5px_8px_-3px_rgb(0_0_0/0.18)] rounded-xs sm:max-w-80 md:order-2">
         <picture>
           <source srcset="/tree.avif" type="image/avif" />
           <img src="/tree.webp"
@@ -20,7 +21,7 @@ import BaseLayout from "../layouts/BaseLayout.astro";
         <figcaption
           class="mt-4 px-1 text-center type-metadata text-neutral-600">A quiet corner of Tuscany, not far from home.</figcaption>
       </figure>
-      <div class="w-full text-left text-lg font-normal md:order-1">
+      <div class="intro-text w-full text-left text-lg font-normal md:order-1">
         <p
           class="text-ink-dim">I'm <span class="text-ink">Raffaele</span>, a developer based in Firenze, Italy. I made this site to get better at writing and because I love yapping about software.</p>
 
@@ -39,3 +40,83 @@ import BaseLayout from "../layouts/BaseLayout.astro";
     </div>
   </Container>
 </BaseLayout>
+
+<style>
+.photo-card {
+  opacity: 0;
+}
+
+.photo-card[data-loaded] {
+  animation: reveal-photo 1s cubic-bezier(0.22, 1, 0.36, 1) both;
+  will-change: opacity, filter, transform;
+}
+
+.intro-text {
+  animation: reveal-text 800ms cubic-bezier(0.22, 1, 0.36, 1) 120ms both;
+  will-change: opacity, filter, transform;
+}
+
+@keyframes reveal-photo {
+  from {
+    opacity: 0;
+    filter: blur(8px) saturate(0.6);
+    transform: translateY(-12px) rotate(4deg) scale(1.03);
+  }
+
+  to {
+    opacity: 1;
+    filter: blur(0) saturate(1);
+    transform: translateY(0) rotate(1deg) scale(1);
+  }
+}
+
+@keyframes reveal-text {
+  from {
+    opacity: 0;
+    filter: blur(10px);
+    transform: translateY(8px);
+  }
+
+  to {
+    opacity: 1;
+    filter: blur(0);
+    transform: translateY(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .photo-card,
+  .intro-text {
+    animation: none;
+    will-change: auto;
+  }
+
+  .photo-card {
+    opacity: 1;
+  }
+}
+</style>
+
+<noscript>
+  <style>
+  .photo-card {
+    opacity: 1;
+  }
+  </style>
+</noscript>
+
+<script>
+const card = document.querySelector<HTMLElement>("[data-photo]");
+const image = card?.querySelector<HTMLImageElement>("img");
+
+const revealPhoto = () => {
+  card?.setAttribute("data-loaded", "");
+};
+
+if (image?.complete) {
+  revealPhoto();
+} else {
+  image?.addEventListener("load", revealPhoto, { once: true });
+  image?.addEventListener("error", revealPhoto, { once: true });
+}
+</script>

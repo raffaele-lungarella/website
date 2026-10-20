@@ -30,7 +30,7 @@ const writingsByYear = writings.reduce((groups, post) => {
   <Container class="mb-8 pt-32">
     <div class="mx-auto flex w-full max-w-[640px] flex-col">
       <h1
-        class="type-section-title font-light border-b border-edge py-1">Writings</h1>
+        class="type-section-title font-light py-1">Writings</h1>
       <section>
         {
             writings.length === 0 ? (
@@ -41,21 +41,17 @@ const writingsByYear = writings.reduce((groups, post) => {
                 <div class="mt-8 flex flex-col gap-10">
                     {[...writingsByYear.entries()].map(([year, posts]) => (
                         <section>
-                            <h2 class="type-section-title font-light text-ink-dim border-b border-edge pb-2">
+                            <h2 class="type-section-title font-light text-ink-dim pb-2">
                                 {year}
                             </h2>
                             <ul class="m-0 flex flex-col p-0">
                                 {posts.map((post) => (
-                                <li class="group list-none border-b border-edge">
+                                <li class="group list-none">
                                     <a
                                         href={`/writings/${post.id}/`}
                                         class="flex items-baseline gap-3 py-2 text-ink no-underline focus-visible:bg-ui-hover"
                                     >
-                                        <span
-                                            aria-hidden="true"
-                                            class="size-4 w-0 shrink-0 self-center bg-current opacity-0 group-hover:w-4 group-hover:opacity-100"
-                                        />
-                                        <h3 class="m-0 min-w-0 flex-1 font-normal">
+                                        <h3 class="m-0 min-w-0 flex-1 font-normal transition-transform duration-200 ease-out group-hover:translate-x-2 motion-reduce:transition-none motion-reduce:group-hover:translate-x-0">
                                             {post.data.title}
                                         </h3>
 
