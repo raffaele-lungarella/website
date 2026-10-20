@@ -23,9 +23,17 @@ import BaseLayout from "../layouts/BaseLayout.astro";
       <div class="w-full text-left text-lg font-normal md:order-1">
         <p
           class="text-ink-dim">I'm <span class="text-ink">Raffaele</span>, a developer based in Firenze, Italy. I made this site to get better at writing and because I love yapping about software.</p>
+
+        <br />
+        <p class="text-ink-dim">
+            Currently working at <Link variant="underline" href={"https://bricks.sh/next-gen"}> bricks.sh</Link>
+          </p>
         <br />
         <p class="mt-8">
-          <Link variant="underline" href="/writings/">writings →</Link>
+          <span class="text-ink-dim">/</span><Link
+            variant="underline"
+            href="/writings/">writings</Link
+          >
         </p>
       </div>
     </div>

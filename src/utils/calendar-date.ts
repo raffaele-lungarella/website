@@ -1,6 +1,7 @@
 export type CalendarDate = `${number}-${number}-${number}`;
 
-export const CALENDAR_DATE_PATTERN = /^\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01])$/;
+export const CALENDAR_DATE_PATTERN =
+  /^\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01])$/;
 
 export function isCalendarDate(value: string): value is CalendarDate {
   if (!CALENDAR_DATE_PATTERN.test(value)) return false;
@@ -10,13 +11,13 @@ export function isCalendarDate(value: string): value is CalendarDate {
   date.setUTCFullYear(year, month - 1, day);
 
   return (
-    date.getUTCFullYear() === year && date.getUTCMonth() === month - 1 && date.getUTCDate() === day
+    date.getUTCFullYear() === year && date.getUTCMonth() === month - 1 &&
+    date.getUTCDate() === day
   );
 }
 
 export function formatCalendarDate(date: CalendarDate): string {
   return new Intl.DateTimeFormat("en-US", {
-    year: "numeric",
     month: "short",
     day: undefined,
     timeZone: "UTC",

@@ -230,9 +230,17 @@
 
   --astro-code-foreground: var(--sand-12);
   --astro-code-background: var(--sand-3);
-  --astro-code-token-string: color-mix(in oklab, var(--code-green) 65%, var(--sand-12));
+  --astro-code-token-string: color-mix(
+    in oklab,
+    var(--code-green) 65%,
+    var(--sand-12)
+  );
   --astro-code-token-comment: var(--sand-10);
-  --astro-code-token-keyword: color-mix(in oklab, var(--code-blue) 65%, var(--sand-12));
+  --astro-code-token-keyword: color-mix(
+    in oklab,
+    var(--code-blue) 65%,
+    var(--sand-12)
+  );
   --astro-code-token-string-expression: var(--astro-code-token-string);
   --astro-code-token-link: var(--astro-code-token-keyword);
 
@@ -409,7 +417,6 @@ body::before {
   font-family: var(--font-mono);
   font-weight: 400;
   font-size: 0.75em;
-  transition: opacity 0.15s ease;
 }
 
 .prose :is(h1, h2, h3, h4, h5, h6):hover a.anchor {
@@ -417,7 +424,6 @@ body::before {
 }
 
 .prose a {
-  transition: color 0.15s ease;
   color: var(--ink);
   text-decoration: underline;
   text-decoration-color: var(--ink-dimmer);
@@ -506,11 +512,6 @@ body::before {
   box-shadow: 0 1px 2px rgb(0 0 0 / 0.08);
   cursor: pointer;
   opacity: 0;
-  transition:
-    color 0.15s ease,
-    background-color 0.15s ease,
-    border-color 0.15s ease,
-    opacity 0.15s ease;
 }
 
 .prose pre:hover .copy-code-button,
@@ -597,15 +598,6 @@ body::before {
   box-shadow: 6px 6px 0px 0px var(--green-3);
 }
 
-@utility interactive {
-  transition:
-    color 0.15s ease,
-    background-color 0.15s ease,
-    border-color 0.15s ease,
-    box-shadow 0.15s ease,
-    opacity 0.15s ease;
-}
-
 @utility type-page-title {
   font-family: var(--font-serif);
   font-size: var(--text-page-title);
@@ -629,16 +621,4 @@ body::before {
   font-size: var(--text-metadata);
   font-weight: var(--text-metadata--font-weight);
   line-height: var(--text-metadata--line-height);
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .interactive,
-  .prose a,
-  .prose :is(h1, h2, h3, h4, h5, h6) a.anchor {
-    transition: none;
-  }
-
-  .interactive:active {
-    transform: none;
-  }
 }
