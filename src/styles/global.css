@@ -222,6 +222,7 @@
 
   --ink-dim: var(--sand-11);
   --ink: var(--sand-12);
+  --focus-ring: #0090ff;
 
   --code-blue: #74aee8;
   --code-green: #a1c181;
@@ -255,6 +256,7 @@
 @media (prefers-color-scheme: dark) {
   :root {
     --surface: var(--sand-2);
+    --focus-ring: #0090ff;
     --code-scrollbar: var(--sand-8);
     --code-scrollbar-hover: var(--sand-9);
 
@@ -296,16 +298,10 @@ html {
 }
 
 :focus-visible {
-  outline: 2px solid var(--green-9);
+  outline: 2px solid var(--focus-ring);
   outline-offset: 2px;
   border-radius: 2px;
   box-shadow: 0 0 0 4px var(--surface);
-}
-
-@media (prefers-color-scheme: dark) {
-  :focus-visible {
-    outline-color: var(--green-11);
-  }
 }
 
 body {
@@ -527,7 +523,7 @@ body::before {
 }
 
 .prose .copy-code-button:focus-visible {
-  outline: 2px solid var(--accent);
+  outline: 2px solid var(--focus-ring);
   outline-offset: 2px;
   opacity: 1;
 }

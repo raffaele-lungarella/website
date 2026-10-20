@@ -1,5 +1,6 @@
 ---
 import BaseHead from "../components/BaseHead.astro";
+import Header from "../components/Header.astro";
 
 import "../styles/global.css";
 import type { PageMetadata } from "../types";
@@ -16,6 +17,7 @@ const { metadata } = Astro.props;
   <body>
     <a href="#main-content"
       class="sr-only focus:not-sr-only focus:fixed focus:top-2 focus:left-2 focus:z-50 focus:px-4 focus:py-2 focus:bg-surface focus:border focus:border-edge focus:text-ink">Skip to content</a>
+    <Header />
     <main id="main-content" tabindex="-1" class="flex-1"><slot /></main>
   </body>
 </html>

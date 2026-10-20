@@ -1,0 +1,21 @@
+---
+import Container from "./Container.astro";
+import Link from "./Link.astro";
+
+const pathname = Astro.url.pathname.replace(/\/$/, "") || "/";
+---
+<header>
+  <Container class="py-4">
+    <nav
+      class="mx-auto flex max-w-160 items-center gap-1 text-sm"
+      aria-label="Primary navigation"
+    >
+      <Link variant="header" href="/" active={pathname === "/"}>home</Link>
+      <Link
+        variant="header"
+        href="/writings/"
+        active={pathname.startsWith("/writings")}>writings</Link
+      >
+    </nav>
+  </Container>
+</header>
